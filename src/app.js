@@ -1,11 +1,11 @@
-const express  = require('express');
-const SongsRoutes = require('./routes/songs.routes');  
-const song = require('./model/songs.model');
+const express = require('express');
+const SongsRoutes = require('./routes/songs.routes');
 const cors = require('cors');
 
-const app= express()
+const app = express();
 
 app.use(express.json());
+
 const allowedOrigins = ['https://moody-player-fronted.vercel.app', 'http://localhost:3000'];
 
 app.use(cors({
@@ -16,8 +16,19 @@ app.use(cors({
     }
     return callback(null, true);
   },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
-app.use('/api',SongsRoutes);
 
+app.use('/api', SongsRoutes);
+
+// CORS error handler
+app.use((err, req, res, next) => {
+  if (err.message.includes('CORS')) {
+    return res.status(403).json({ error: err.message });
+  }
+  next(err);
+});
 
 module.exports = app;
