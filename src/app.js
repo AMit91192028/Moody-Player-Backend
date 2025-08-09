@@ -6,7 +6,7 @@ const cors = require('cors');
 const app= express()
 
 app.use(express.json());
-const allowedOrigins = ['https://moody-player-fronted-arbd.vercel.app', 'http://localhost:3000'];
+const allowedOrigins = ['https://moody-player-fronted.vercel.app/', 'http://localhost:3000'];
 
 app.use(cors({
   origin: function(origin, callback) {
